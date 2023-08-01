@@ -15,6 +15,7 @@
         margin-bottom: 2px;
         padding: 2px;
         padding-left: 10px;
+        border-radius: 6px;
       }
       .options {
         margin-bottom: 20px;
@@ -101,7 +102,7 @@
         for (let i = 0; i < questions.length; i++) {
           const question = questions[i];
           const questionNumber = i + 1;
-          console.log(question)
+          console.log(question);
           const selectedOption = question.querySelector(
             'input[type="radio"]:checked'
           );
