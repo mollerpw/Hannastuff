@@ -5,10 +5,17 @@
     <style>
       body {
         font-family: Arial, sans-serif;
+        width: 25%;
+      }
+      #questionnaireForm {
+        padding: 20px;
       }
       .question {
-        margin-bottom: 10px;
         font-weight: bold;
+        margin-bottom: 2px;
+        padding: 2px;
+        padding-left: 10px;
+        border-radius: 6px;
       }
       .options {
         margin-bottom: 20px;
@@ -18,11 +25,11 @@
       }
       #submitBtn {
         display: block;
-        margin-top: 20px;
         padding: 10px;
         background-color: blue;
         color: white;
         border-radius: 6px;
+        margin: 18px auto 0 auto;
       }
       #submitBtn:hover {
         color: blue;
@@ -31,13 +38,20 @@
       }
       #correct-answers {
         font-size: 20px;
+        text-align: center;
+      }
+      #q1 {
+        color: black;
+      }
+      #q2 {
+        color: black;
       }
     </style>
   </head>
   <body>
     <h1>Questionnaire</h1>
     <form id="questionnaireForm">
-      <div class="question">
+      <div class="question" id="q1container">
         <p>1. Is chessboxing fun?</p>
         <div class="options">
           <label class="option"
@@ -49,14 +63,16 @@
           <label class="option"
             ><input type="radio" name="q1" value="c" />c) Maybe</label
           >
+          <p id="q1"></p>
         </div>
       </div>
-      <div class="question">
+      <div class="question" id="q2container">
         <p>2. Which other sports are played in chessboxing?</p>
         <div class="options">
           <label class="option"
             ><input type="radio" name="q2" value="a" />a) Chess</label
           >
+
           <label class="option"
             ><input type="radio" name="q2" value="b" />b) Boxing</label
           >
@@ -64,6 +80,7 @@
             ><input type="radio" name="q2" value="c" />c) Chess and
             Boxing</label
           >
+          <p id="q2"></p>
         </div>
       </div>
       <!-- Add more questions here -->
@@ -85,7 +102,7 @@
         for (let i = 0; i < questions.length; i++) {
           const question = questions[i];
           const questionNumber = i + 1;
-
+          console.log(question);
           const selectedOption = question.querySelector(
             'input[type="radio"]:checked'
           );
@@ -117,7 +134,16 @@
 
         for (let key of keys1) {
           if (object1[key] === object2[key]) {
+            //document.getElementById(key).innerHTML = 'Correct answer!';
+            let questionContainer = `${key}container`;
+            document.getElementById(questionContainer).style.backgroundColor =
+              'green';
             amountCorrect += 1;
+          } else {
+            //document.getElementById(key).innerHTML = 'Wrong answer!';
+            let questionContainer = `${key}container`;
+            document.getElementById(questionContainer).style.backgroundColor =
+              'red';
           }
         }
         return amountCorrect;

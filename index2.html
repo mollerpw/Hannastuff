@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Questionnaire</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        width: 25%;
+      }
+      #quiz {
+        padding: 20px;
+        font-weight: bold;
+        margin-bottom: 2px;
+        padding-left: 10px;
+      }
+      .question {
+        font-weight: bold;
+        margin-bottom: 20px;
+        padding: 2px;
+        padding-left: 10px;
+      }
+      .answers {
+        margin-bottom: 20px;
+        margin-left: 10px;
+      }
+
+      label {
+        margin-right: 10px;
+      }
+      .button {
+        display: block;
+        padding: 10px;
+        background-color: blue;
+        color: white;
+        border-radius: 6px;
+        margin: 0 18px 0 26px;
+      }
+      .button:hover {
+        color: blue;
+        background-color: white;
+        cursor: pointer;
+      }
+      #results {
+        font-size: 20px;
+        text-align: center;
+      }
+      #q1 {
+        color: black;
+      }
+      #q2 {
+        color: black;
+      }
+      .container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Questionnaire</h1>
+    <div id="quiz"></div>
+    <div class="container">
+      <button class="button" id="back">Back</button>
+      <button class="button" id="forward">Next</button>
+      <div id="results"></div>
+    </div>
+
+    <script>
+      let myQuestions = [
+        {
+          title: '1. Is chessboxing fun?',
+          answers: {
+            a: 'No',
+            b: 'Yes',
+            c: 'Maybe',
+          },
+          correctAnswer: 'b',
+        },
+        {
+          title: '2. Which other sports are played in chessboxing?',
+          answers: {
+            a: 'Chess',
+            b: 'Boxing',
+            c: 'Chess and Boxing',
+          },
+          correctAnswer: 'c',
+        },
+      ];
+      var quizContainer = document.getElementById('quiz');
+      var resultsContainer = document.getElementById('results');
+      var submitButton = document.getElementsByClassName('inputbutton');
+      let currentQuestion = 0;
+      let numCorrect = 0;
+
+      function generateQuiz(
+        questions,
+        quizContainer,
+        resultsContainer,
+        submitButton,
+        currentQuestion
+      ) {
+        function showQuestions(questions, quizContainer, currentQuestion) {
+          var output = '';
+          var answers;
+          i = currentQuestion + 1;
+          console.log(questions);
+          console.log(currentQuestion);
+
+          // first reset the list of answers
+          answers = [];
+
+          // for each available answer to this question...
+          for (letter in questions[currentQuestion].answers) {
+            // ...add an html radio button
+            answers.push(
+              '<label>' +
+                '<input type="radio" id="inputbutton' +
+                letter +
+                '" name="q' +
+                i +
+                '" value="' +
+                letter +
+                '">' +
+                letter +
+                ': ' +
+                questions[currentQuestion].answers[letter] +
+                '</label>'
+            );
+          }
+
+          // add this question and its answers to the output
+          output =
+            '<div class="question">' +
+            questions[currentQuestion].title +
+            '</div>' +
+            '<div class="answers">' +
+            answers.join('') +
+            '</div>';
+
+          quizContainer.innerHTML = output;
+
+          document.getElementById('inputbuttona').onclick = function () {
+            console.log('hej1', currentQuestion);
+            showResults(
+              questions,
+              quizContainer,
+              resultsContainer,
+              currentQuestion
+            );
+          };
+          document.getElementById('inputbuttonb').onclick = function () {
+            console.log('hej12', currentQuestion);
+            showResults(
+              questions,
+              quizContainer,
+              resultsContainer,
+              currentQuestion
+            );
+          };
+          document.getElementById('inputbuttonc').onclick = function () {
+            console.log('hej13', currentQuestion);
+            showResults(
+              questions,
+              quizContainer,
+              resultsContainer,
+              currentQuestion
+            );
+          };
+        }
+        function showResults(
+          questions,
+          quizContainer,
+          resultsContainer,
+          currentQuestion
+        ) {
+
+          var answerContainers = quizContainer.querySelectorAll('.answers');
+          console.log(currentQuestion);
+          console.log(answerContainers);
+
+          i = currentQuestion + 1;
+          var userAnswer = '';
+          const question = answerContainers[0];
+          console.log(question);
+
+          const selectedOption = question.querySelector(
+            'input[type="radio"]:checked'
+          );
+          userAnswer = selectedOption.value;
+
+          // if answer is correct
+          if (userAnswer === questions[currentQuestion].correctAnswer) {
+            numCorrect++;
+
+            answerContainers[0].style.color = 'green';
+          }
+          else {
+            answerContainers[0].style.color = 'red';
+          }
+
+          // show number of correct answers out of total
+          resultsContainer.innerHTML = numCorrect + ' out of ' + i;
+        }
+
+        // show the questions
+        showQuestions(questions, quizContainer, currentQuestion);
+
+        var forwardButton = document.getElementById('forward');
+        var backButton = document.getElementById('back');
+
+        forwardButton.onclick = function () {
+          currentQuestion += 1;
+          console.log(currentQuestion);
+          showQuestions(questions, quizContainer, currentQuestion);
+        };
+
+        backButton.onclick = function () {
+          currentQuestion -= 1;
+          showQuestions(questions, quizContainer, currentQuestion);
+        };
+      }
+      generateQuiz(
+        myQuestions,
+        quizContainer,
+        resultsContainer,
+        submitButton,
+        currentQuestion
+      );
+    </script>
+  </body>
+</html>
